@@ -1,0 +1,40 @@
+{
+  "name": "foodiefind",
+  "version": "1.0.0",
+  "description": "AI-powered restaurant discovery from YouTube food influencer videos",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "install-deps": "cd backend && npm install",
+    "migrate": "cd backend && npm run migrate",
+    "bulk-add": "cd backend && npm run bulk-add",
+    "admin": "cd admin && python -m http.server 3001",
+    "setup": "npm run install-deps && npm run migrate && npm run bulk-add",
+    "diagnose": "cd backend && node diagnose.js",
+    "stats": "cd backend && npm run stats",
+    "test": "cd backend && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SunnySF-PM/foodiefind.git"
+  },
+  "keywords": [
+    "youtube",
+    "restaurants",
+    "influencer",
+    "food", 
+    "recommendations",
+    "ai",
+    "openai",
+    "supabase",
+    "restaurant-discovery"
+  ],
+  "author": "Piyush",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,56 @@
+# Replit configuration for FoodieFind
+run = "npm run install-deps && npm start"
+modules = ["nodejs-20"]
+
+[deployment]
+run = ["sh", "-c", "npm run install-deps && npm start"]
+
+[env]
+PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin"
+npm_config_prefix = "/home/runner/$REPL_SLUG/.config/npm/node_global"
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix"]
+
+[languages]
+
+[languages.javascript]
+pattern = "**/{*.js,*.jsx,*.ts,*.tsx,*.json}"
+
+[languages.javascript.languageServer]
+start = "typescript-language-server --stdio"
+
+[packager]
+language = "nodejs"
+
+[packager.features]
+packageSearch = true
+guessImports = true
+enabledForHosting = false
+
+[unitTest]
+language = "nodejs"
+
+[debugger]
+support = true
+
+[debugger.interactive]
+transport = "localhost:0"
+startCommand = ["dap-node"]
+
+[debugger.interactive.initializeMessage]
+command = "initialize"
+type = "request"
+
+[debugger.interactive.launchMessage]
+command = "launch"
+type = "request"
+program = "./backend/server.js"
+console = "externalTerminal"
+args = []
+stopOnEntry = false
+cwd = "."
+environment = []
+externalConsole = false
+MIMode = "gdb"
+miDebuggerPath = "gdb"
