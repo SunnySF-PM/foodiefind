@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodieFind Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #2563eb;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #1f2937;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .btn-success {
+            background: #059669;
+        }
+
+        .btn-success:hover {
+            background: #047857;
+        }
+
+        .status-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        .status-loading {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #3b82f6;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .influencer-card {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .influencer-card h3 {
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .log-area {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ FoodieFind Admin Panel</h1>
+            <p>Manage food influencers and restaurant recommendations</p>
+        </div>
+
+        <!-- Add New Influencer -->
+        <div class="section">
+            <h2>➕ Add New Food Influencer</h2>
+            <form id="addInfluencerForm">
+                <div class="form-group">
+                    <label for="channelUrl">YouTube Channel URL or Channel ID:</label>
+                    <input type="text" id="channelUrl" placeholder="https://youtube.com/@markwiens or UCyEd6QBSgat5kkC6svyjudA" required>
+                    <small>Enter the full YouTube channel URL or just the channel ID</small>
+                </div>
+                <button type="submit" class="btn">Add Influencer</button>
+            </form>
+            <div id="addInfluencerStatus" class="status-box"></div>
+        </div>
+
+        <!-- Bulk Process Videos -->
+        <div class="section">
+            <h2>🔄 Bulk Process Videos</h2>
+            <p>Process all unprocessed videos to extract restaurant recommendations using AI.</p>
+            <div class="form-group">
+                <label for="batchLimit">Number of videos to process (max 10 recommended):</label>
+                <input type="number" id="batchLimit" value="5" min="1" max="20">
+            </div>
+            <button id="bulkProcessBtn" class="btn btn-success">Start Bulk Processing</button>
+            <div id="bulkProcessStatus" class="status-box"></div>
+        </div>
+
+        <!-- Processing Logs -->
+        <div class="section">
+            <h2>📋 Processing Logs</h2>
+            <div id="logArea" class="log-area">Ready to start processing...\n</div>
+            <button id="clearLogsBtn" class="btn btn-danger">Clear Logs</button>
+        </div>
+
+        <!-- Existing Influencers -->
+        <div class="section">
+            <h2>👥 Current Influencers</h2>
+            <button id="refreshInfluencersBtn" class="btn">Refresh List</button>
+            <div id="influencersList" class="grid">
+                <!-- Influencers will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Database Stats -->
+        <div class="section">
+            <h2>📊 Database Statistics</h2>
+            <div id="statsContainer">
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number" id="totalInfluencers">-</div>
+                        <div class="stat-label">Influencers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="totalVideos">-</div>
+                        <div class="stat-label">Videos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="totalRestaurants">-</div>
+                        <div class="stat-label">Restaurants</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="totalRecommendations">-</div>
+                        <div class="stat-label">Recommendations</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
