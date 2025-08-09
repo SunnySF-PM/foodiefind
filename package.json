@@ -4,7 +4,7 @@
   "description": "AI-powered restaurant discovery from YouTube food influencer videos",
   "main": "backend/server.js",
   "scripts": {
-    "start": "cd backend && npm start",
+    "start": "cd backend && npm install && npm start",
     "dev": "cd backend && npm run dev",
     "install-deps": "cd backend && npm install",
     "migrate": "cd backend && npm run migrate",
