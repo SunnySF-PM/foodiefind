@@ -1,9 +1,9 @@
 # Replit configuration for FoodieFind
-run = "npm run install-deps && npm start"
+run = "npm start"
 modules = ["nodejs-20"]
 
 [deployment]
-run = ["sh", "-c", "npm run install-deps && npm start"]
+run = ["sh", "-c", "npm start"]
 
 [env]
 PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin"
