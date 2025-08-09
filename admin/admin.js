@@ -1,11 +1,8 @@
 // FoodieFind Admin Panel JavaScript
 
-// Auto-detect API base URL - works for localhost and Replit
 const API_BASE = window.location.hostname === 'localhost' 
     ? 'http://localhost:3002/api' 
     : `${window.location.protocol}//${window.location.host}/api`;
-
-console.log('Admin Panel API Base:', API_BASE);
 
 class AdminPanel {
     constructor() {
@@ -86,7 +83,7 @@ class AdminPanel {
                 } catch {
                     errorData = { error: errorText };
                 }
-                throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+                throw new Error(errorData.error || `HTTP ${response.status}: ${response.status}:`);
             }
 
             const data = await response.json();
@@ -99,8 +96,8 @@ class AdminPanel {
             // Provide helpful error messages
             if (error.name === 'TypeError' && error.message.includes('fetch')) {
                 this.log(`❌ Connection failed: Cannot reach backend server`);
-                this.log(`💡 Backend URL: ${API_BASE}`);
-                throw new Error('Backend server not reachable. Check if the app is running.');
+                this.log(`💡 Make sure backend is running: cd backend && npm start`);
+                throw new Error('Backend server not reachable. Is it running on port 3002?');
             }
             
             if (error.message.includes('CORS')) {
@@ -198,7 +195,7 @@ class AdminPanel {
     async loadDashboard() {
         this.loadInfluencers();
         this.loadStats();
-        this.log(`Admin panel loaded successfully - API: ${API_BASE}`);
+        this.log('Admin panel loaded successfully');
     }
 
     // Load influencers list
@@ -220,11 +217,11 @@ class AdminPanel {
                     
                     <div class="stats">
                         <div class="stat">
-                            <div class="stat-number">${influencer.total_videos || 0}</div>
+                            <div class="stat-number">${influencer.video_count || 0}</div>
                             <div class="stat-label">Videos</div>
                         </div>
                         <div class="stat">
-                            <div class="stat-number">${influencer.total_restaurants || 0}</div>
+                            <div class="stat-number">${influencer.restaurant_count || 0}</div>
                             <div class="stat-label">Restaurants</div>
                         </div>
                     </div>
