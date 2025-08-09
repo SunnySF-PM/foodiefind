@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -18,6 +19,9 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+
+// Serve static files from admin directory
+app.use('/admin', express.static(path.join(__dirname, '../admin')));
 
 // Import routes
 const influencerRoutes = require('./routes/influencers');
@@ -47,15 +51,16 @@ app.get('/health', (req, res) => {
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({ 
-    message: 'Influencer Restaurants API',
+    message: 'FoodieFind - AI Restaurant Discovery API',
     version: '1.0.0',
     endpoints: [
       '/api/influencers',
-      '/api/videos',
+      '/api/videos', 
       '/api/restaurants',
       '/api/search',
       '/api/users',
-      '/api/processing'
+      '/api/processing',
+      '/admin/index.html - Admin Panel'
     ]
   });
 });
@@ -78,4 +83,5 @@ app.use('*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`Admin Panel: http://localhost:${PORT}/admin/index.html`);
 });
